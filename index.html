@@ -11,7 +11,9 @@
     .ko-grid-pageLinks { margin-bottom: 1em; }
     .ko-grid-pageLinks a { padding: 0.5em; }
     .ko-grid-pageLinks a.selected { background-color: Black; color: White; }
-    .liveExample { height:20em; overflow:auto } /* Mobile Safari reflows pages slowly, so fix the height to avoid the need for reflows */
+    .liveExample { height:20em; overflow:auto } 
+    .buttom{margin-left:10px;}
+    input{width:30px;}
 </style>
 <body>
 	
@@ -32,127 +34,19 @@
 <button data-bind='click: jumpToFirstPage, enable: gridViewModel.currentPageIndex'>
     Jump to first page
 </button> 
-	<script>
-	var objectCount=0;
 
-    var initialData = [
-        { number: 1, color:'red', pixelCount: 352, leftLimit: 75.95, rightLimit: 75.95, upperLimit: 75.95, lowerLimit: 75.95, height:0, width:0 },
-        { number: 2, color:'green', pixelCount: 89, leftLimit: 75.95, rightLimit: 75.95, upperLimit: 75.95, lowerLimit: 75.95, height:0, width:0 },
-        { number: 3, color:'blue', pixelCount: 152, leftLimit: 75.95, rightLimit: 75.95, upperLimit: 75.95, lowerLimit: 75.95, height:0, width:0 },
-        { number: 4, color:'black', pixelCount: 324, leftLimit: 75.95, rightLimit: 75.95, upperLimit: 75.95, lowerLimit: 75.95, height:0, width:0 }
-    ];
+<button data-bind='click: reset'>
+   Reset
+</button> 
 
-    var PagedGridModel = function(items) {
-        this.items = ko.observableArray(items);
+<p>
+left limit: <input data-bind="value: modelLimit.left"/> 
+right limit: <input data-bind="value: modelLimit.right"/>
+<button class="buttom" data-bind='click: sortLimit'>
+   Sort by limit
+</button> 
+</p>
 
-		this.addItem = function(obj) {
-            this.items.push(obj);
-        };
-
-        this.sortNumber = function() {
-           this.items.sort(function(a, b) {
-                return a.number < b.number ? -1 : 1;
-             });
-        };
-
-        this.sortPixelCount = function() {
-            this.items.sort(function(a, b) {
-                return a.pixelCount < b.pixelCount ? 1 : -1;
-            });
-        };
-
-        this.jumpToFirstPage = function() {
-            this.gridViewModel.currentPageIndex(0);
-        };
-
-        this.gridViewModel = new ko.simpleGrid.viewModel({
-            data: this.items,
-            columns: [
-          		{ headerText: "Object №", rowText: "number" /* function (item) { return ++objectCount +' '+ item.number }*/ },
-                { headerText: "Color", rowText: "color" },
-                { headerText: "Pixel count", rowText: "pixelCount" },
-                { headerText: "Left limit", rowText: "leftLimit" },
-                { headerText: "Right limit", rowText: "rightLimit" },
-                { headerText: "Upper limit", rowText: "upperLimit" },
-                { headerText: "Lower limit", rowText: "lowerLimit" },
-                { headerText: "Height", rowText: "height" },
-                { headerText: "Width", rowText: "width" },
-              
-            ],
-            pageSize: 15
-        });
-    };
-
-    var gridModel = new PagedGridModel(initialData);
-    ko.applyBindings(gridModel);
-
-
-
-
-function conversion(obj){
-	var array = [],j = 0,
-	gridObj = {
-			number:0,
-			color:'',
-			pixelCount:0,
-			leftLimit:0,
-			rightLimit:0,
-			upperLimit:0,
-			lowerLimit:0,
-			height:0,
-			width:0
-	};
-
-	
-	for (i in obj) {
-	  array[j]=obj[i];
-	  j++;
-	}
-
-	j = 0;
-	for (i in gridObj) {
-	  gridObj[i]=array[j];
-	  j++;
-	}
-	 
-	return gridObj;
-}
-    	 
-		var objTest= {};
-		 objTest.Number=1;
-    	 objTest.Color =1;
-    	 objTest.Pixels =1;
-         objTest.MaxLeftPx	=1;     
-         objTest.MaxRightPx =1;
-         objTest.MaxTopPx =1;
-         objTest.MaxBorromPx =1;
-		 objTest.Height =1;
-         objTest.Width =1;
-
-        var obj = conversion(objTest);
-/*	
-
-<ul data-bind="foreach:friends">
-	<li><span data-bind="text:name"></span> <span data-bind="text:age"></span></li>
-</ul>
-
-
-
-	function Friend(name){
-		this.name=name;
-		this.age=18;
-	}
-
-	var obj = {
-	    fr: ko.observable('Hello'),
-	    friends:ko.observableArray([new Friend('Tom'), new Friend("JJ")])
-	   // attribute2: ko.observable("world!"),
-	};
-		obj.friends.push(new Friend("Jim"));
-	  	ko.applyBindings(obj);
-
-	
-*/
-	</script>
+<script src="gridView.js">	</script>		
 </body>
 </html>
